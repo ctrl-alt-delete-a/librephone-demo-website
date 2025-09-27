@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LibrePhone – Your phone. Your freedom.</title>
+  <meta name="description" content="LibrePhone: communitydrivet Linux för telefoner med en trygg Stable-gren och en öppen Community-gren." />
+  <meta property="og:title" content="LibrePhone" />
+  <meta property="og:description" content="Communitydrivet Linux för telefoner – stabilt när du behöver det, community när du vill det." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0ea5e9" />
+  <style>
+    :root {
+      --bg: #0b0f14;           /* mörk bakgrund */
+      --bg-soft: #101720;
+      --card: #0f172a;
+      --text: #e5e7eb;         /* ljus text */
+      --muted: #94a3b8;        /* sekundär text */
+      --brand: #0ea5e9;        /* cyan */
+      --brand-2: #22d3ee;      /* ljusare accent */
+      --ok: #22c55e;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --ring: rgba(34, 211, 238, .25);
+      --border: #1f2937;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f8fafc;
+        --bg-soft: #eef2f7;
+        --card: #ffffff;
+        --text: #0f172a;
+        --muted: #475569;
+        --brand: #0ea5e9;
+        --brand-2: #0891b2;
+        --border: #e5e7eb;
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, sans-serif;
+      color: var(--text); background: radial-gradient(1200px 800px at 80% -10%, rgba(14,165,233,.12), transparent 50%),
+                radial-gradient(1000px 600px at -10% 20%, rgba(34,211,238,.12), transparent 50%), var(--bg);
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1100px, 100% - 2rem); margin: 0 auto; }
+    header {
+      position: sticky; top: 0; backdrop-filter: saturate(140%) blur(10px);
+      background: color-mix(in oklab, var(--bg), transparent 40%);
+      border-bottom: 1px solid var(--border);
+      z-index: 50;
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: .8rem 0; }
+    .brand { display: inline-flex; align-items: center; gap: .6rem; font-weight: 700; letter-spacing: .2px; }
+    .chip { padding: .25rem .5rem; border: 1px solid var(--border); border-radius: 999px; font-size: .8rem; color: var(--muted); }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: linear-gradient(180deg, var(--brand), var(--brand-2));
+      color: white; font-weight: 600; padding: .75rem 1rem; border-radius: .8rem; border: 0; cursor: pointer;
+      box-shadow: 0 8px 24px -12px var(--ring);
+    }
+    .btn.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); box-shadow: none; }
+    .btn.ghost { background: transparent; color: var(--muted); border: 0; }
+    .hero {
+      padding: clamp(2rem, 6vw, 6rem) 0 3rem;
+    }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.1; margin: .5rem 0 1rem; }
+    .hero p { color: var(--muted); font-size: 1.05rem; }
+    .hero .cta { display: flex; gap: .8rem; flex-wrap: wrap; margin-top: 1.2rem; }
+    .pillbar { display: inline-flex; align-items: center; gap: .5rem; background: color-mix(in oklab, var(--brand), transparent 88%);
+      border: 1px solid var(--border); padding: .4rem .6rem; border-radius: 999px; color: var(--muted); }
+    .grid { display: grid; gap: 1rem; }
+    .features { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin: 1.5rem 0 2rem; }
+    .card { background: color-mix(in oklab, var(--card), var(--bg) 25%); border: 1px solid var(--border); border-radius: 1rem; padding: 1.1rem; }
+    .card h3 { margin: .2rem 0 .4rem; }
+    .muted { color: var(--muted); }
+    .code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; background: var(--bg-soft);
+      border: 1px dashed var(--border); padding: .75rem .9rem; border-radius: .7rem; overflow: auto; }
+    section { padding: 2.2rem 0; }
+    .kicker { text-transform: uppercase; letter-spacing: .18em; font-weight: 700; font-size: .75rem; color: var(--brand-2); }
+    .list { display: grid; gap: .6rem; }
+    .list li { display: grid; grid-template-columns: 20px 1fr; align-items: start; gap: .6rem; }
+    .badge { font-size: .72rem; padding: .2rem .5rem; border-radius: .5rem; border: 1px solid var(--border); color: var(--muted); }
+    footer { border-top: 1px solid var(--border); padding: 2rem 0; color: var(--muted); }
+    .cols { display: grid; grid-template-columns: 1.2fr .8fr; gap: 2rem; }
+    @media (max-width: 860px) { .cols { grid-template-columns: 1fr; } }
+    .logo {
+      width: 30px; height: 30px; display: inline-grid; place-items: center; border-radius: .6rem; position: relative;
+      overflow: clip; background: radial-gradient(120% 120% at 0% 100%, var(--brand-2), var(--brand));
+    }
+    .logo svg { width: 18px; height: 18px; color: white; }
+    .separator { height: 1px; background: var(--border); margin: 1.8rem 0; }
+    .table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+    .table th, .table td { padding: .7rem .6rem; border-bottom: 1px solid var(--border); text-align: left; }
+    .table th { color: var(--muted); font-weight: 600; }
+    .cta-row { display: flex; gap: .8rem; align-items: center; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav" role="navigation" aria-label="Huvudnavigation">
+      <a href="#" class="brand" aria-label="LibrePhone startsida">
+        <span class="logo" aria-hidden="true">
+          <!-- enkel telefon-ikon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="7" y="2" width="10" height="20" rx="2"/>
+            <circle cx="12" cy="18" r="1"/>
+          </svg>
+        </span>
+        <span>LibrePhone</span>
+      </a>
+      <nav class="cta-row">
+        <a class="ghost" href="#features">Funktioner</a>
+        <a class="ghost" href="#security">Säkerhet</a>
+        <a class="ghost" href="#download">Ladda ned</a>
+        <a class="btn secondary" href="#docs">Dokumentation</a>
+        <a class="btn" href="#download">Hämta Stable</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container cols">
+        <div>
+          <span class="pillbar" role="note">Communitydrivet Linux för telefoner</span>
+          <h1>Stable när du behöver det.<br/>Community när du vill det.</h1>
+          <p>
+            LibrePhone är ett öppet telefon-OS med två spår: en trygg <strong>Stable</strong>-gren och en fri <strong>Community</strong>-gren.
+            Du äger din enhet – och tillsammans bygger vi framtidens mobilplattform.
+          </p>
+          <div class="cta">
+            <a class="btn" href="#download" aria-label="Ladda ned LibrePhone Stable">Ladda ned Stable</a>
+            <a class="btn secondary" href="#community" aria-label="Utforska community-byggnader">Utforska Community</a>
+          </div>
+          <p class="muted" style="margin-top:.8rem">"Your phone. Your freedom."</p>
+        </div>
+        <div class="card" aria-labelledby="quick-info">
+          <h3 id="quick-info">Snabbfakta</h3>
+          <div class="grid" style="grid-template-columns: 1fr 1fr; gap:.8rem;">
+            <div>
+              <div class="badge">Stable</div>
+              <p class="muted">Signerat, reproducibelt byggt och säkerhetsgranskat av release-teamet.</p>
+            </div>
+            <div>
+              <div class="badge">Community</div>
+              <p class="muted">Öppet för experiment – betyg, användarantal och verifierade maintainers.
+              </p>
+            </div>
+            <div>
+              <div class="badge">Säker uppdaterare</div>
+              <p class="muted">OTA med A/B-slots, TUF-liknande signering och enkel rollback.</p>
+            </div>
+            <div>
+              <div class="badge">Integritet</div>
+              <p class="muted">Ingen tvingad telemetri. Kraschdata endast opt‑in och anonym.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="container">
+        <p class="kicker">Funktioner</p>
+        <h2>Två spår som lyfter varandra</h2>
+        <div class="grid features">
+          <article class="card" aria-labelledby="f1">
+            <h3 id="f1">Stable – för vardagen</h3>
+            <p class="muted">Noggrant testade releaser, hårdvaruprofil per modell och strikt policy för behörigheter och drivrutiner.</p>
+            <ul class="list">
+              <li><span>✅</span><span>Signerat och reproducibelt byggt</span></li>
+              <li><span>✅</span><span>Strikta seccomp-profiler och sandbox</span></li>
+              <li><span>✅</span><span>Långsiktig support och säkerhetsfixar</span></li>
+            </ul>
+          </article>
+          <article class="card" aria-labelledby="f2">
+            <h3 id="f2">Community – för kreativitet</h3>
+            <p class="muted">Öppna flavors, snabba experiment och ett tydligt betygssystem med verifierade maintainers.</p>
+            <ul class="list">
+              <li><span>🧪</span><span>Karantän & crowd‑review innan bred listning</span></li>
+              <li><span>⭐</span><span>Betyg, användarantal och etiketter för risknivå</span></li>
+              <li><span>🔐</span><span>Inga privilegierade appar i Stable-kanalen</span></li>
+            </ul>
+          </article>
+          <article class="card" aria-labelledby="f3">
+            <h3 id="f3">Butik & appar</h3>
+            <p class="muted">Två kataloger i ett gränssnitt: Stable och Community. Tydliga varningar för ovanliga rättigheter.</p>
+            <ul class="list">
+              <li><span>🏷️</span><span>Verifierade utvecklare & signaturkedjor</span></li>
+              <li><span>🧭</span><span>Permissions‑översikt innan installation</span></li>
+              <li><span>↩️</span><span>Snabb rollback om något går fel</span></li>
+            </ul>
+          </article>
+          <article class="card" aria-labelledby="f4">
+            <h3 id="f4">Öppen governance</h3>
+            <p class="muted">Roller och behörigheter inspirerade av Wikipedia: Auto‑confirmed, Manually confirmed och Administratörer.</p>
+            <ul class="list">
+              <li><span>🧑‍💻</span><span>Öppna RFC:er och omröstningar</span></li>
+              <li><span>🛡️</span><span>Security‑team med ansvar för promotions</span></li>
+              <li><span>🏷️</span><span>Policies för licenser, kodstil och kvalitet</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="security">
+      <div class="container">
+        <p class="kicker">Säkerhet</p>
+        <h2>Från PR till Stable – en transparent kedja</h2>
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="card">
+            <h3>Pipeline (kort)</h3>
+            <ol class="list" style="list-style:none; padding:0;">
+              <li><span>1️⃣</span><span>Inskick av recept + SBOM</span></li>
+              <li><span>2️⃣</span><span>CI: SAST, licenskoll, CVE‑scan, virusscan</span></li>
+              <li><span>3️⃣</span><span>Karantän 7–14 dagar & community‑review</span></li>
+              <li><span>4️⃣</span><span>Manuell diff för kritiska paket</span></li>
+              <li><span>5️⃣</span><span>Reproducible re‑build ×2 och signering</span></li>
+              <li><span>6️⃣</span><span>Promotion till Stable</span></li>
+            </ol>
+          </div>
+          <div class="card">
+            <h3>Exempel: verifiering</h3>
+            <pre class="code" aria-label="Kommandon för att verifiera signaturer"><code>$ lpkg verify libphone-1.0.0.arm64.pkg
+✔ signature: VALID (tuf: root@2025‑09‑01)
+✔ sha256:    2f6b…a9e1
+✔ builder:   reproducible (2/2 match)
+</code></pre>
+            <p class="muted">Allt i Stable är signerat och kan verifieras lokalt.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="download">
+      <div class="container">
+        <p class="kicker">Ladda ned</p>
+        <h2>Välj spår</h2>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+          <div class="card">
+            <h3>LibrePhone Stable</h3>
+            <p class="muted">Rekommenderas för de flesta användare.</p>
+            <ul class="list">
+              <li><span>🔒</span><span>Signerat & testat</span></li>
+              <li><span>📶</span><span>Radio/telefoni validerad per modell</span></li>
+              <li><span>🛠️</span><span>LTS‑uppdateringar</span></li>
+            </ul>
+            <div class="cta" style="margin-top:.8rem">
+              <a class="btn" href="#">Hämta .img</a>
+              <a class="btn secondary" href="#docs">Installationsguide</a>
+            </div>
+          </div>
+          <div class="card">
+            <h3>LibrePhone Community</h3>
+            <p class="muted">För dig som vill experimentera.</p>
+            <ul class="list">
+              <li><span>🧪</span><span>Flavors & forks</span></li>
+              <li><span>⭐</span><span>Betyg & verifierade maintainers</span></li>
+              <li><span>⚠️</span><span>Kan innehålla buggar – läs varningar</span></li>
+            </ul>
+            <div class="cta" style="margin-top:.8rem">
+              <a class="btn secondary" href="#community">Utforska builds</a>
+              <a class="btn" href="#contribute">Bidra</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="docs">
+      <div class="container">
+        <p class="kicker">Dokumentation</p>
+        <h2>Kom igång</h2>
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap:1rem;">
+          <div class="card">
+            <h3>Snabbstart (flash)</h3>
+            <pre class="code" aria-label="Kommandon för flash"><code>$ fastboot devices
+$ fastboot flash boot librephone-boot.img
+$ fastboot flash system librephone-system.img
+$ fastboot reboot
+</code></pre>
+            <p class="muted">Se modellens sida för exakta partitioner och instruktioner.</p>
+          </div>
+          <div class="card">
+            <h3>Bygg från källkod</h3>
+            <pre class="code" aria-label="Kommandon för att bygga"><code>$ git clone https://example.org/librephone
+$ cd librephone
+$ make device=your_model release=stable
+$ out/your_model/librephone.img
+</code></pre>
+            <p class="muted">Reproducerbara builds med dokumenterad toolchain.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="community">
+      <div class="container">
+        <p class="kicker">Community</p>
+        <h2>Byggt tillsammans</h2>
+        <div class="grid" style="grid-template-columns: 1.2fr .8fr; gap:1rem;">
+          <div class="card">
+            <h3>Roller</h3>
+            <table class="table" aria-label="Roller i projektet">
+              <thead>
+                <tr><th>Roll</th><th>Rättigheter</th><th>Krav</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Auto‑confirmed</td><td>Skicka draft‑builds</td><td>Tid + verifierad e‑post + godkända PRs</td></tr>
+                <tr><td>Manually confirmed</td><td>Publicera kandidat‑builds</td><td>Utses av admins på meriter</td></tr>
+                <tr><td>Administratör</td><td>Security review & promotion</td><td>Vald av core‑teamet</td></tr>
+              </tbody>
+            </table>
+            <div class="separator"></div>
+            <div class="cta-row">
+              <a class="btn" href="#contribute">Börja bidra</a>
+              <a class="btn secondary" href="#codeofconduct">Code of Conduct</a>
+              <span class="chip">Öppen RFC‑process</span>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Nyheter & uppdateringar</h3>
+            <p class="muted">Prenumerera på Stable‑notiser och Community‑sammanfattningar.</p>
+            <form class="cta-row" onsubmit="event.preventDefault(); alert('Tack! Vi hör av oss.');">
+              <label for="email" class="visually-hidden">E‑post</label>
+              <input id="email" type="email" placeholder="din@epost.se" required
+                     style="flex:1; padding:.8rem .9rem; border-radius:.7rem; border:1px solid var(--border); background:var(--card); color:var(--text)" />
+              <button class="btn" type="submit">Prenumerera</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contribute">
+      <div class="container">
+        <p class="kicker">Contribute</p>
+        <h2>Vi välkomnar PRs & idéer</h2>
+        <div class="grid features">
+          <div class="card">
+            <h3>Issue‑tracker</h3>
+            <p class="muted">Rapportera buggar, efterfråga funktioner, eller fråga om hjälp.</p>
+            <a class="btn secondary" href="#">Öppna issues</a>
+          </div>
+          <div class="card">
+            <h3>Bygg‑CI</h3>
+            <p class="muted">Alla builds sker i rena containers och blir reproducerbara.</p>
+            <a class="btn secondary" href="#">Läs pipeline</a>
+          </div>
+          <div class="card">
+            <h3>Security policy</h3>
+            <p class="muted">Ansvarsfull responsible disclosure och bounty för kritiska sårbarheter.</p>
+            <a class="btn secondary" href="#">Läs policyn</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container cta-row" style="justify-content: space-between;">
+      <p>© <span id="y"></span> LibrePhone. Byggt av communityn, för communityn.</p>
+      <p>
+        <a href="#codeofconduct">CoC</a> • <a href="#privacy">Integritet</a> • <a href="#imprint">Kontakt</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // uppdatera året
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
